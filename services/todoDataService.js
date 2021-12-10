@@ -54,7 +54,7 @@ module.exports = class TodoDataService {
         // return this.getTodos();
         return await dynamoClient.scan(params).promise().then(
           function(data) {
-            // console.log(data.Items[0]);
+            console.log(data.Items[0]);
             return data.Items[0];
           });
 
@@ -70,7 +70,7 @@ module.exports = class TodoDataService {
           Item: existingTodoData,
         }
         // ...
-        console.log("GET HERE");
+        // console.log("GET HERE");
         await dynamoClient.put(params).promise()
         // .then(
         //   function(data) {
@@ -82,7 +82,7 @@ module.exports = class TodoDataService {
 
         return await dynamoClient.scan(params).promise().then(
           function(data) {
-            console.log(data.Items[0]);
+            // console.log(data.Items[0]);
             return data.Items[0];
           });
         
@@ -123,6 +123,7 @@ module.exports = class TodoDataService {
         Key: {
           id: "0"
         },
+        
         // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.html
         // UpdateExpression: ...
         // ExpressionAttributeNames: {
@@ -132,6 +133,13 @@ module.exports = class TodoDataService {
         //   ...
         // },
       }
+
+      return await dynamoClient.update(params).promise().then(
+        (data) => {
+          console.log(data)
+          return data.Items[0];
+        }
+      )
 
       // Update the tododata item
     } catch (error) {
