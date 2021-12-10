@@ -81,6 +81,7 @@ module.exports = class TodoDataService {
         Key: {
           id: "0"
         },
+        // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.html
         // UpdateExpression: ...
         // ExpressionAttributeNames: {
         //   ...
