@@ -6,6 +6,10 @@ const TableName = process.env.TABLE_NAME;
 const dynamoClient = require('../db');
 // uuid, useful for generating unique ids
 const uuid = require("uuid");
+const { request } = require('express');
+
+
+
 
 module.exports = class TodoDataService {
   static async addTodo(todo) {
@@ -17,9 +21,16 @@ module.exports = class TodoDataService {
     };
 
     try {
+
+
+
       // Check the "tododata" table for existing a tododata item
-      // let existingTodoData = ...
-      
+      let existingTodoData = await dynamoClient.scan(params).promise().then(
+        function(data) {
+          // console.log(data);
+          return data;
+        });
+
       // no tododata exists yet
       if (existingTodoData.Items.length === 0) {
         const newTodoData = {
@@ -37,6 +48,22 @@ module.exports = class TodoDataService {
         }
         // ...
 
+
+        await dynamoClient.put(params).promise()
+        // .then(
+        //   (data) => {
+        //     console.log("this is my data returned from put:", data);
+        //   }
+        // )
+        // console.log(this.getTodos());
+        // return this.getTodos();
+        return await dynamoClient.scan(params).promise().then(
+          function(data) {
+            console.log(data.Items[0]);
+            return data.Items[0];
+          });
+
+        console.log("IF CONDITION");
         // Return the newly created tododata item
       } else { // a tododata item already exist
         existingTodoData = existingTodoData.Items[0];
@@ -50,8 +77,18 @@ module.exports = class TodoDataService {
         }
         // ...
 
+        console.log("GET HERE");
+        await dynamoClient.put(params).promise()
+        // .then(
+        //   function(data) {
+        //     console.log("this is my data returned from put:", data);
+  
+        //   }
+        // )
         // Return the newly created tododata item
+        
       }
+      
     } catch (error) {
       console.error(error);
       return error;
@@ -62,12 +99,19 @@ module.exports = class TodoDataService {
     try {
       const params = {
         TableName,
-        Key: {
-          id: "0"
-        }
+        // Key: {
+        //   id: "0"
+        // }
       }
-
       // Check the "tododata" table for the tododata item, and return it
+      return await dynamoClient.scan(params).promise().then(
+        (data) => {
+          console.log(data)
+          return data
+        }
+      )
+
+      
     } catch (error) {
       console.error(error);
       return error;
