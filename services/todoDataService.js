@@ -21,9 +21,6 @@ module.exports = class TodoDataService {
     };
 
     try {
-
-
-
       // Check the "tododata" table for existing a tododata item
       let existingTodoData = await dynamoClient.scan(params).promise().then(
         function(data) {
@@ -47,8 +44,6 @@ module.exports = class TodoDataService {
           Item: newTodoData,
         }
         // ...
-
-
         await dynamoClient.put(params).promise()
         // .then(
         //   (data) => {
@@ -59,11 +54,10 @@ module.exports = class TodoDataService {
         // return this.getTodos();
         return await dynamoClient.scan(params).promise().then(
           function(data) {
-            console.log(data.Items[0]);
+            // console.log(data.Items[0]);
             return data.Items[0];
           });
 
-        console.log("IF CONDITION");
         // Return the newly created tododata item
       } else { // a tododata item already exist
         existingTodoData = existingTodoData.Items[0];
@@ -76,7 +70,6 @@ module.exports = class TodoDataService {
           Item: existingTodoData,
         }
         // ...
-
         console.log("GET HERE");
         await dynamoClient.put(params).promise()
         // .then(
@@ -86,6 +79,12 @@ module.exports = class TodoDataService {
         //   }
         // )
         // Return the newly created tododata item
+
+        return await dynamoClient.scan(params).promise().then(
+          function(data) {
+            console.log(data.Items[0]);
+            return data.Items[0];
+          });
         
       }
       
@@ -106,12 +105,11 @@ module.exports = class TodoDataService {
       // Check the "tododata" table for the tododata item, and return it
       return await dynamoClient.scan(params).promise().then(
         (data) => {
-          console.log(data)
-          return data
+          // console.log(data)
+          return data.Items[0];
         }
       )
 
-      
     } catch (error) {
       console.error(error);
       return error;

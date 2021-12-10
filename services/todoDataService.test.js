@@ -23,7 +23,7 @@ describe("TodoData Service", () => {
   });
 
   // remove the 'x' before 'it' to "turn on" the test
-  xit("returns all the todo-data saved", async () => {
+  it("returns all the todo-data saved", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
