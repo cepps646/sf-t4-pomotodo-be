@@ -125,19 +125,18 @@ module.exports = class TodoDataService {
         },
         
         // https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.html
-        // UpdateExpression: ...
-        // ExpressionAttributeNames: {
-        //   ...
-        // },
-        // ExpressionAttributeValues: {
-        //   ...
-        // },
-      }
+        // UpdateExpression: 'set #order = :options.order[0], :options.order[1]',
+        UpdateExpression: "set #oldOrder = :o",
+        ExpressionAttributeNames: {"#oldOrder": "order"},
+        ExpressionAttributeValues: {
+          ":o": options.order
+        }
+      };
 
       return await dynamoClient.update(params).promise().then(
         (data) => {
           console.log(data)
-          return data.Items[0];
+          // return data.Items[0];
         }
       )
 

@@ -69,7 +69,7 @@ describe("TodoData Service", () => {
     expect(Array.from(actual.order)).toEqual([returnedTodo2.order[1], returnedTodo2.order[0]]);
   })
 
-  xit("updates the todo name and desc", async () => {
+  it("updates the todo name and desc", async () => {
     const todo1 = {
       name: "Add entry",
       desc: "Personal log",
